@@ -23,46 +23,58 @@ This is a Java Swing-based application for managing exam seating arrangements fo
 
 ## 🗃️ Database (MSSQL)
 Make sure to create the following tables:
+```sql
+CREATE DATABASE exam_seating_arrangement;
+```
+
+After running the above script, run the below script:
 
 ```sql
+USE exam_seating_arrangement;
+
+-- Create Students table
 CREATE TABLE Students (
-    student_id INT PRIMARY KEY IDENTITY(1,1),
-    reg_no VARCHAR(20) UNIQUE,
-    name VARCHAR(100),
-    session VARCHAR(20),
-    semester VARCHAR(20),
-    year VARCHAR(20),
-    program VARCHAR(100),
-    password VARCHAR(100)
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    reg_no VARCHAR(20) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    session VARCHAR(20) NOT NULL,
+    semester VARCHAR(20) NOT NULL,
+    year VARCHAR(20) NOT NULL,
+    program VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL
 );
 
+-- Create CourseUnits table
 CREATE TABLE CourseUnits (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    student_id INT,
-    course_code VARCHAR(20),
-    course_title VARCHAR(100),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_code VARCHAR(20) NOT NULL,
+    course_title VARCHAR(100) NOT NULL,
     FOREIGN KEY (student_id) REFERENCES Students(student_id)
 );
 
+-- Create Rooms table
 CREATE TABLE Rooms (
-    room_id INT PRIMARY KEY IDENTITY(1,1),
-    room_name VARCHAR(50),
-    seat_capacity INT
+    room_id INT AUTO_INCREMENT PRIMARY KEY,
+    room_name VARCHAR(50) NOT NULL,
+    seat_capacity INT NOT NULL
 );
 
+-- Create SeatingArrangement table
 CREATE TABLE SeatingArrangement (
-    id INT PRIMARY KEY IDENTITY(1,1),
-    student_id INT,
-    room_id INT,
-    seat_number INT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    room_id INT NOT NULL,
+    seat_number INT NOT NULL,
     FOREIGN KEY (student_id) REFERENCES Students(student_id),
-    FOREIGN KEY (room_id) REFERENCES Classrooms(room_id)
+    FOREIGN KEY (room_id) REFERENCES Rooms(room_id)
 );
 
+-- Create Admins table
 CREATE TABLE Admins (
-    admin_id INT PRIMARY KEY IDENTITY(1,1),
-    username VARCHAR(50),
-    password VARCHAR(50)
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
 );
 ```
 
@@ -98,9 +110,3 @@ CREATE TABLE Admins (
 - MSSQL Server
 - iText 5.x (for PDF export)
 - Any Java IDE (IntelliJ, NetBeans, Eclipse)
-
----
-
-## ✨ License
-This project is for educational purposes.
-
